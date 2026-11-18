@@ -49,6 +49,18 @@ export function interpretar(evento, r) {
   return `⚠️ erro não bloqueante (exit ${r.exit}) — a ação segue`;
 }
 
+// Agrupa o resultado em poucas categorias para o resumo final.
+// Mesma regra de interpretar(), em versão curta.
+const ORDEM_CATEGORIAS = ['bloqueado', 'JSON deny', 'JSON block', 'JSON ask', 'JSON allow', 'permitido + contexto', 'permitido', 'erro não bloqueante'];
+function categoria(evento, r) {
+  const decisao = r.json?.hookSpecificOutput?.permissionDecision || r.json?.decision;
+  if (r.exit === 2) return 'bloqueado';
+  if (r.exit === 0 && decisao) return `JSON ${decisao}`;
+  if (r.exit === 0 && r.stdout && ['UserPromptSubmit', 'SessionStart'].includes(evento)) return 'permitido + contexto';
+  if (r.exit === 0) return 'permitido';
+  return 'erro não bloqueante';
+}
+
 function carregarFixtures() {
   return fs.readdirSync(pastaFixtures)
     .filter((f) => f.endsWith('.json'))
@@ -90,15 +102,33 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
     if (!fx) { console.error(`Fixture "${alvo}" não encontrada em guardrails/exemplos/fixtures/`); process.exit(1); }
     detalhar(fx, executarHook(fx.hook, fx.entrada, fx.env));
   } else {
-    let falhas = 0;
+    const inicio = Date.now();
+    const falhas = [];
+    const porHook = {};
+    const porResultado = {};
     console.log('Fixtures dos guardrails (guardrails/exemplos/fixtures):\n');
-    for (const fx of carregarFixtures()) {
+    const fixtures = carregarFixtures();
+    for (const fx of fixtures) {
       const r = executarHook(fx.hook, fx.entrada, fx.env);
       const problemas = confere(fx, r);
-      falhas += problemas.length ? 1 : 0;
+      if (problemas.length) falhas.push(fx.nome);
+      const hook = fx.nome.split('-')[0].toUpperCase();
+      porHook[hook] = (porHook[hook] || 0) + 1;
+      const resultado = categoria(fx.entrada.hook_event_name, r);
+      porResultado[resultado] = (porResultado[resultado] || 0) + 1;
       console.log(`${problemas.length ? '❌' : '✅'} ${fx.nome.padEnd(34)} ${interpretar(fx.entrada.hook_event_name, r)}${problemas.length ? `  ← ${problemas.join('; ')}` : ''}`);
     }
-    console.log(falhas ? `\n${falhas} fixture(s) com resultado inesperado.` : '\nTodos os guardrails se comportaram como esperado.');
-    process.exit(falhas ? 1 : 0);
+
+    const posicao = (k) => (ORDEM_CATEGORIAS.indexOf(k) + 1 || 99);
+    const lista = (obj, ordenar) => Object.entries(obj).sort(ordenar).map(([k, v]) => `${k} ${v}`).join(' · ');
+    const segundos = ((Date.now() - inicio) / 1000).toFixed(1).replace('.', ',');
+    console.log('\nResumo');
+    console.log(`  fixtures    ${fixtures.length}  (✅ ${fixtures.length - falhas.length} como esperado · ❌ ${falhas.length} inesperado)`);
+    console.log(`  por hook    ${lista(porHook, ([a], [b]) => a.localeCompare(b))}`);
+    console.log(`  resultado   ${lista(porResultado, ([a], [b]) => posicao(a) - posicao(b))}`);
+    console.log(`  duração     ${segundos} s`);
+    if (falhas.length) console.log(`  inesperados ${falhas.join(', ')}`);
+    console.log(falhas.length ? `\n${falhas.length} fixture(s) com resultado inesperado.` : '\nTodos os guardrails se comportaram como esperado.');
+    process.exit(falhas.length ? 1 : 0);
   }
 }

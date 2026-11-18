@@ -46,7 +46,7 @@ Contas, cartões e CEPs de teste: [`qa/massa-de-dados.md`](qa/massa-de-dados.md)
 | `npm run dev:stop` | Derruba a loja iniciada com `dev:bg` |
 | `npm run test:regras` | Suíte de regressão (36 testes) |
 | `npm run casos:exportar` | Regera `casos-de-teste.md` e `.csv` a partir do JSON |
-| `npm run hooks:testar` | Simula todos os hooks de exemplo com as fixtures |
+| `npm run hooks:testar` | Simula todos os hooks de exemplo com as fixtures e mostra um resumo (total, por hook, por resultado) |
 | `npm run guardrails:instalar` | Gera `.claude/settings.json` com os hooks (`-- --desafios` inclui os desafios) |
 | `npm run desafios:corrigir` | Corretor automático dos desafios |
 

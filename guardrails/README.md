@@ -58,7 +58,7 @@
 ## Comandos
 
 ```bash
-npm run hooks:testar                     # roda todas as fixtures (exemplos/fixtures/*.json) e confere o esperado
+npm run hooks:testar                     # roda todas as fixtures (exemplos/fixtures/*.json), confere o esperado e resume
 npm run hooks:testar -- e2-editar        # uma fixture, em modo detalhado (stdin, exit, stdout, stderr)
 npm run guardrails:instalar              # gera .claude/settings.json com E1–E6
 npm run guardrails:instalar -- --desafios
