@@ -1,0 +1,46 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/guardrails/hooks/e4-proteger-prompt.js\"", "timeout": 10 }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/guardrails/hooks/e1-bloquear-comandos-perigosos.js\"", "timeout": 10 }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/guardrails/hooks/e2-proteger-arquivos.js\"", "timeout": 10 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/guardrails/hooks/e3-validar-casos-de-teste.js\"", "timeout": 20 }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/guardrails/hooks/e5-auditoria.js\"", "timeout": 10 }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/guardrails/hooks/e6-portao-de-qualidade.js\"", "timeout": 120 }
+        ]
+      }
+    ]
+  }
+}

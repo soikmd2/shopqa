@@ -1,0 +1,14 @@
+{
+  "descricao": "Push forçado",
+  "hook": "guardrails/hooks/e1-bloquear-comandos-perigosos.js",
+  "entrada": {
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git push origin main --force"
+    }
+  },
+  "esperado": {
+    "exit": 2
+  }
+}

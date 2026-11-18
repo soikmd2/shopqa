@@ -1,0 +1,162 @@
+diff --git a/src/domain/pagamento.js b/src/domain/pagamento.js
+index f248a4f..97c4e58 100644
+--- a/src/domain/pagamento.js
++++ b/src/domain/pagamento.js
+@@ -5,6 +5,27 @@ import { arredondar, somenteDigitos } from './formatadores.js';
+ export const DESCONTO_PIX = 0.05;
+ export const MAX_PARCELAS = 10;
+ export const PARCELA_MINIMA = 20.0;
++export const DIAS_VENCIMENTO_BOLETO = 3;
++
++export const FORMAS_DE_PAGAMENTO = {
++  cartao: 'Cartão de crédito',
++  pix: 'PIX',
++  boleto: 'Boleto bancário'
++};
++
++/** Data de vencimento do boleto: 3 dias úteis após a emissão (US-09). */
++export function calcularVencimentoBoleto(emissao = new Date()) {
++  const vencimento = new Date(emissao);
++  vencimento.setDate(vencimento.getDate() + DIAS_VENCIMENTO_BOLETO);
++  return vencimento;
++}
++
++/** Linha digitável fake (47 dígitos) — o banco real será integrado na v1.6. */
++export function gerarLinhaDigitavel(pedidoId, total) {
++  const valor = String(Math.round(total * 100)).padStart(10, '0');
++  const base = `34191790010104351004791020150008${String(pedidoId).padStart(5, '0')}${valor}`;
++  return base.slice(0, 47).replace(/(\d{5})(\d{5})(\d{5})(\d{6})(\d{5})(\d{6})(\d)(\d{14})/, '$1.$2 $3.$4 $5.$6 $7 $8');
++}
+ 
+ export function calcularDescontoPix(valorBase) {
+   return arredondar(valorBase * DESCONTO_PIX);
+diff --git a/src/domain/resumo.js b/src/domain/resumo.js
+index 05140f8..3702d85 100644
+--- a/src/domain/resumo.js
++++ b/src/domain/resumo.js
+@@ -7,7 +7,7 @@ import { calcularFrete } from './frete.js';
+ import { calcularDescontoPix } from './pagamento.js';
+ 
+ /**
+- * @param {{ itens: Array, cupom?: object|null, cep?: string, formaPagamento?: 'cartao'|'pix' }} params
++ * @param {{ itens: Array, cupom?: object|null, cep?: string, formaPagamento?: 'cartao'|'pix'|'boleto' }} params
+  */
+ export function calcularResumo({ itens, cupom = null, cep = '', formaPagamento = 'cartao' }) {
+   const subtotal = calcularSubtotal(itens);
+@@ -17,8 +17,9 @@ export function calcularResumo({ itens, cupom = null, cep = '', formaPagamento =
+   const frete = cep ? calcularFrete(cep, base, cupom) : null;
+   const valorFrete = frete && frete.ok ? frete.valor : 0;
+ 
+-  const descontoPix =
+-    formaPagamento === 'pix' ? calcularDescontoPix(base + valorFrete) : 0;
++  // Pagamentos à vista (PIX/boleto) não têm parcelamento.
++  const aVista = formaPagamento !== 'cartao';
++  const descontoPix = aVista ? calcularDescontoPix(base + valorFrete) : 0;
+ 
+   const total = arredondar(base + valorFrete - descontoPix);
+ 
+diff --git a/src/pages/Checkout.jsx b/src/pages/Checkout.jsx
+index 4ec6a04..1ee8954 100644
+--- a/src/pages/Checkout.jsx
++++ b/src/pages/Checkout.jsx
+@@ -52,7 +52,7 @@ export default function Checkout() {
+     numeroCartaoValido(cartao.numero) && cartao.nome.trim().length >= 3 &&
+     validadeCartaoValida(cartao.validade) && cvvValido(cartao.cvv);
+ 
+-  const formValido = Boolean(enderecoOk && (formaPagamento === 'pix' || cartaoOk));
++  const formValido = Boolean(enderecoOk && (formaPagamento !== 'cartao' || cartaoOk));
+ 
+   const campo = (nome) => ({
+     value: endereco[nome],
+@@ -112,6 +112,10 @@ export default function Checkout() {
+                 <input type="radio" name="pg" checked={formaPagamento === 'pix'} onChange={() => setFormaPagamento('pix')} data-testid="pagamento-pix" />
+                 PIX (5% de desconto)
+               </label>
++              <label className={formaPagamento === 'boleto' ? 'ativa' : ''}>
++                <input type="radio" name="pg" checked={formaPagamento === 'boleto'} onChange={() => setFormaPagamento('boleto')} data-testid="pagamento-boleto" />
++                Boleto bancário
++              </label>
+             </div>
+ 
+             {formaPagamento === 'cartao' ? (
+@@ -138,10 +142,14 @@ export default function Checkout() {
+                   </select>
+                 </label>
+               </div>
+-            ) : (
++            ) : formaPagamento === 'pix' ? (
+               <p className="pix-info" data-testid="pix-info">
+                 O QR Code PIX será exibido após a confirmação. Você economiza {formatarMoeda(resumo.descontoPix)}.
+               </p>
++            ) : (
++              <p className="pix-info" data-testid="boleto-info">
++                O boleto vence em 3 dias úteis. O pedido é enviado após a compensação (até 2 dias úteis).
++              </p>
+             )}
+           </fieldset>
+         </div>
+@@ -155,7 +163,7 @@ export default function Checkout() {
+             <dt>Subtotal</dt><dd data-testid="checkout-subtotal">{formatarMoeda(resumo.subtotal)}</dd>
+             {resumo.descontoCupom > 0 && (<><dt>Cupom {cupom.codigo}</dt><dd data-testid="checkout-desconto-cupom">− {formatarMoeda(resumo.descontoCupom)}</dd></>)}
+             <dt>Frete</dt><dd data-testid="checkout-frete">{resumo.frete && resumo.frete.ok ? (resumo.valorFrete === 0 ? 'Grátis' : formatarMoeda(resumo.valorFrete)) : '—'}</dd>
+-            {resumo.descontoPix > 0 && (<><dt>Desconto PIX (5%)</dt><dd data-testid="checkout-desconto-pix">− {formatarMoeda(resumo.descontoPix)}</dd></>)}
++            {resumo.descontoPix > 0 && (<><dt>Desconto à vista (5%)</dt><dd data-testid="checkout-desconto-pix">− {formatarMoeda(resumo.descontoPix)}</dd></>)}
+             <dt className="total">Total</dt><dd className="total" data-testid="checkout-total">{formatarMoeda(resumo.total)}</dd>
+           </dl>
+           {erro && <p className="erro" data-testid="erro-checkout">{erro}</p>}
+diff --git a/src/pages/Confirmacao.jsx b/src/pages/Confirmacao.jsx
+index bc2b9ac..f8e3ad0 100644
+--- a/src/pages/Confirmacao.jsx
++++ b/src/pages/Confirmacao.jsx
+@@ -29,6 +29,13 @@ export default function Confirmacao({ id }) {
+         <dt className="total">Total cobrado</dt><dd className="total" data-testid="confirmacao-total">{formatarMoeda(pedido.valorCobrado)}</dd>
+         <dt>Pagamento</dt><dd>{pedido.formaPagamento === 'pix' ? 'PIX' : `Cartão em ${pedido.parcelas}x`}</dd>
+       </dl>
++      {pedido.boleto && (
++        <div className="boleto" data-testid="boleto">
++          <p>Linha digitável:</p>
++          <code data-testid="boleto-linha">{pedido.boleto.linhaDigitavel}</code>
++          <p>Vencimento: {new Date(pedido.boleto.vencimento).toLocaleDateString('pt-BR')}</p>
++        </div>
++      )}
+       <Link para="/pedidos" className="botao">Ver meus pedidos</Link>{' '}
+       <Link para="/" className="botao botao--primario">Continuar comprando</Link>
+     </section>
+diff --git a/src/services/api.js b/src/services/api.js
+index 51292f7..9474da2 100644
+--- a/src/services/api.js
++++ b/src/services/api.js
+@@ -7,6 +7,7 @@ import {
+   registrarSucessoDeLogin
+ } from '../domain/autenticacao.js';
+ import { arredondar } from '../domain/formatadores.js';
++import { calcularVencimentoBoleto, gerarLinhaDigitavel } from '../domain/pagamento.js';
+ 
+ const CHAVES = {
+   usuarios: 'shopqa:usuarios',
+@@ -163,8 +164,14 @@ export async function criarPedido({ usuario, itens, resumo, formaPagamento, parc
+       ? arredondar(parcelamento.valorParcela * parcelamento.parcelas)
+       : resumo.total;
+ 
++  const id = pedidos.reduce((max, p) => Math.max(max, p.id), 1000) + 1;
++  const boleto =
++    formaPagamento === 'boleto'
++      ? { linhaDigitavel: gerarLinhaDigitavel(id, resumo.total), vencimento: calcularVencimentoBoleto().toISOString() }
++      : null;
++
+   const pedido = {
+-    id: pedidos.reduce((max, p) => Math.max(max, p.id), 1000) + 1,
++    id,
+     usuarioId: usuario.id,
+     data: new Date().toISOString(),
+     itens: itens.map(({ id, nome, preco, quantidade }) => ({ id, nome, preco, quantidade })),
+@@ -178,7 +185,8 @@ export async function criarPedido({ usuario, itens, resumo, formaPagamento, parc
+     formaPagamento,
+     parcelas: formaPagamento === 'cartao' ? parcelamento.parcelas : null,
+     endereco,
+-    status: 'Aguardando envio'
++    boleto,
++    status: formaPagamento === 'boleto' ? 'Aguardando pagamento' : 'Aguardando envio'
+   };
+   gravar(CHAVES.pedidos, [...pedidos, pedido]);
+   return pedido;

@@ -1,0 +1,11 @@
+{
+  "descricao": "Em modo QA o portão não roda",
+  "hook": "guardrails/hooks/e6-portao-de-qualidade.js",
+  "entrada": {
+    "hook_event_name": "Stop",
+    "stop_hook_active": false
+  },
+  "esperado": {
+    "exit": 0
+  }
+}

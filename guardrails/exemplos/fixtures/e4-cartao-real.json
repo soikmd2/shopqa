@@ -1,0 +1,12 @@
+{
+  "descricao": "Prompt com cartão real",
+  "hook": "guardrails/hooks/e4-proteger-prompt.js",
+  "entrada": {
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "Por que o pagamento com o cartão 4532 0151 1283 0366 falhou?"
+  },
+  "esperado": {
+    "exit": 2,
+    "stderrContem": "cartão"
+  }
+}

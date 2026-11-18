@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shopqa.local/schemas/caso-de-teste.schema.json",
+  "title": "Arquivo de casos de teste da ShopQA",
+  "description": "Validado pelo guardrail E3 (guardrails/hooks/e3-validar-casos-de-teste.js). Regras semânticas extras (frases vagas, AC pertencente à US) estão no próprio hook.",
+  "type": "object",
+  "required": ["projeto", "versaoSchema", "casos"],
+  "properties": {
+    "projeto": { "type": "string" },
+    "versaoSchema": { "const": "1.0" },
+    "casos": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "titulo", "historia", "criterio", "regras", "tipo", "prioridade", "precondicoes", "passos", "resultadoEsperado", "automatizavel"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^TC-[A-Z]{3}-\\d{3}$" },
+          "titulo": { "type": "string", "minLength": 10 },
+          "historia": { "type": "string", "pattern": "^US-\\d{2}$" },
+          "criterio": { "type": "string", "pattern": "^AC-\\d{2}\\.\\d+$" },
+          "regras": { "type": "array", "items": { "type": "string", "pattern": "^RN-\\d{2}$" } },
+          "tipo": { "enum": ["funcional", "negativo", "limite", "seguranca", "usabilidade", "desempenho", "acessibilidade", "regressao"] },
+          "prioridade": { "enum": ["critica", "alta", "media", "baixa"] },
+          "precondicoes": { "type": "array", "items": { "type": "string" } },
+          "dados": { "type": "object" },
+          "passos": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "resultadoEsperado": { "type": "string", "minLength": 15 },
+          "automatizavel": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

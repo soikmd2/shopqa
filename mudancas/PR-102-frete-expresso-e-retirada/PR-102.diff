@@ -1,0 +1,150 @@
+diff --git a/src/domain/frete.js b/src/domain/frete.js
+index 4a4d8e2..33e1e01 100644
+--- a/src/domain/frete.js
++++ b/src/domain/frete.js
+@@ -13,6 +13,12 @@ export const TABELA_FRETE = [
+   { faixa: [8, 9], regiao: 'Sul', valor: 22.9, prazo: 4 }
+ ];
+ 
++export const MODALIDADES = {
++  padrao: { nome: 'Padrão', multiplicador: 1 },
++  expresso: { nome: 'Expresso', multiplicador: 1.8 },
++  retirada: { nome: 'Retirar na loja (São Paulo)', multiplicador: 0 }
++};
++
+ export function cepValido(cep = '') {
+   return /^\d{5}-?\d{2,3}$/.test(String(cep).trim());
+ }
+@@ -26,8 +32,12 @@ export function formatarCep(cep = '') {
+  * @param {string} cep
+  * @param {number} baseCalculo subtotal de produtos já com desconto de cupom
+  * @param {object|null} cupom cupom aplicado (pode ser do tipo "frete")
++ * @param {'padrao'|'expresso'|'retirada'} modalidade
+  */
+-export function calcularFrete(cep, baseCalculo, cupom = null) {
++export function calcularFrete(cep, baseCalculo, cupom = null, modalidade = 'padrao') {
++  if (modalidade === 'retirada') {
++    return { ok: true, regiao: MODALIDADES.retirada.nome, prazo: 1, valor: 0, gratis: true, modalidade };
++  }
+   if (!cepValido(cep)) return { ok: false, erro: 'CEP inválido.' };
+ 
+   const primeiroDigito = Number(somenteDigitos(cep)[0]);
+@@ -35,14 +45,19 @@ export function calcularFrete(cep, baseCalculo, cupom = null) {
+     (l) => primeiroDigito >= l.faixa[0] && primeiroDigito <= l.faixa[1]
+   );
+ 
++  const { multiplicador } = MODALIDADES[modalidade];
+   const gratis =
+-    baseCalculo > VALOR_MINIMO_FRETE_GRATIS || (cupom && cupom.tipo === 'frete');
++    baseCalculo >= VALOR_MINIMO_FRETE_GRATIS || (cupom && cupom.tipo === 'frete');
++
++  const valor = Math.round(linha.valor * multiplicador * 100) / 100;
++  const prazo = modalidade === 'expresso' ? Math.ceil(linha.prazo / 2) : linha.prazo;
+ 
+   return {
+     ok: true,
+     regiao: linha.regiao,
+-    prazo: linha.prazo,
+-    valor: gratis ? 0 : linha.valor,
+-    gratis: Boolean(gratis)
++    prazo,
++    valor: gratis ? 0 : valor,
++    gratis: Boolean(gratis),
++    modalidade
+   };
+ }
+diff --git a/src/domain/resumo.js b/src/domain/resumo.js
+index 05140f8..31144ab 100644
+--- a/src/domain/resumo.js
++++ b/src/domain/resumo.js
+@@ -9,12 +9,12 @@ import { calcularDescontoPix } from './pagamento.js';
+ /**
+  * @param {{ itens: Array, cupom?: object|null, cep?: string, formaPagamento?: 'cartao'|'pix' }} params
+  */
+-export function calcularResumo({ itens, cupom = null, cep = '', formaPagamento = 'cartao' }) {
++export function calcularResumo({ itens, cupom = null, cep = '', formaPagamento = 'cartao', modalidade = 'padrao' }) {
+   const subtotal = calcularSubtotal(itens);
+   const descontoCupom = calcularDescontoCupom(cupom, subtotal);
+   const base = arredondar(subtotal - descontoCupom);
+ 
+-  const frete = cep ? calcularFrete(cep, base, cupom) : null;
++  const frete = cep || modalidade === 'retirada' ? calcularFrete(cep, base, cupom, modalidade) : null;
+   const valorFrete = frete && frete.ok ? frete.valor : 0;
+ 
+   const descontoPix =
+diff --git a/src/pages/Checkout.jsx b/src/pages/Checkout.jsx
+index 4ec6a04..6d427bd 100644
+--- a/src/pages/Checkout.jsx
++++ b/src/pages/Checkout.jsx
+@@ -4,7 +4,7 @@ import { Link, navegar } from '../components/Roteador.jsx';
+ import * as api from '../services/api.js';
+ import { formatarMoeda } from '../domain/formatadores.js';
+ import { calcularResumo } from '../domain/resumo.js';
+-import { cepValido, formatarCep } from '../domain/frete.js';
++import { cepValido, formatarCep, MODALIDADES } from '../domain/frete.js';
+ import {
+   cvvValido,
+   numeroCartaoValido,
+@@ -18,6 +18,7 @@ export default function Checkout() {
+   const { usuario, itens, cupom, cep, setCep, limparCarrinho, recarregarUsuario } = useLoja();
+   const [endereco, setEndereco] = useState({ cep, rua: '', numero: '', complemento: '', bairro: '', cidade: '', uf: '' });
+   const [formaPagamento, setFormaPagamento] = useState('cartao');
++  const [modalidade, setModalidade] = useState('padrao');
+   const [cartao, setCartao] = useState({ numero: '', nome: '', validade: '', cvv: '' });
+   const [parcelas, setParcelas] = useState(1);
+   const [enviando, setEnviando] = useState(false);
+@@ -40,7 +41,7 @@ export default function Checkout() {
+     );
+   }
+ 
+-  const resumo = calcularResumo({ itens, cupom, cep: endereco.cep, formaPagamento });
++  const resumo = calcularResumo({ itens, cupom, cep: endereco.cep, formaPagamento, modalidade });
+   const opcoes = opcoesDeParcelamento(resumo.total);
+   const parcelamento = opcoes.find((o) => o.parcelas === Number(parcelas)) || opcoes[0];
+ 
+@@ -65,7 +66,7 @@ export default function Checkout() {
+     setEnviando(true);
+     try {
+       const pedido = await api.criarPedido({
+-        usuario, itens, resumo, formaPagamento, parcelamento, endereco, cupom
++        usuario, itens, resumo, formaPagamento, parcelamento, endereco, cupom, modalidade
+       });
+       limparCarrinho();
+       recarregarUsuario();
+@@ -99,6 +100,14 @@ export default function Checkout() {
+               </label>
+             </div>
+             {endereco.cep && !cepValido(endereco.cep) && <p className="erro" data-testid="erro-cep-checkout">CEP inválido.</p>}
++            <div className="abas" data-testid="modalidades-entrega">
++              {Object.entries(MODALIDADES).map(([chave, m]) => (
++                <label key={chave} className={modalidade === chave ? 'ativa' : ''}>
++                  <input type="radio" name="entrega" checked={modalidade === chave} onChange={() => setModalidade(chave)} data-testid={`entrega-${chave}`} />
++                  {m.nome}
++                </label>
++              ))}
++            </div>
+           </fieldset>
+ 
+           <fieldset data-testid="secao-pagamento">
+diff --git a/src/services/api.js b/src/services/api.js
+index 51292f7..71f2146 100644
+--- a/src/services/api.js
++++ b/src/services/api.js
+@@ -142,7 +142,7 @@ export async function cadastrar({ nome, email, senha, cpf }) {
+ 
+ // ---------- Pedidos ----------
+ 
+-export async function criarPedido({ usuario, itens, resumo, formaPagamento, parcelamento, endereco, cupom }) {
++export async function criarPedido({ usuario, itens, resumo, formaPagamento, parcelamento, endereco, cupom, modalidade = 'padrao' }) {
+   await esperar(LATENCIA_MS);
+   const estoque = ler(CHAVES.estoque, {});
+ 
+@@ -172,6 +172,8 @@ export async function criarPedido({ usuario, itens, resumo, formaPagamento, parc
+     descontoCupom: resumo.descontoCupom,
+     cupom: cupom ? cupom.codigo : null,
+     frete: resumo.valorFrete,
++    modalidadeEntrega: modalidade,
++    prazoEntrega: resumo.frete ? resumo.frete.prazo : null,
+     descontoPix: resumo.descontoPix,
+     total: resumo.total,
+     valorCobrado,

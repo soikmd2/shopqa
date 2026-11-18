@@ -1,0 +1,17 @@
+{
+  "descricao": "Alterar package.json pede aprovação",
+  "hook": "guardrails/hooks/e2-proteger-arquivos.js",
+  "entrada": {
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "package.json",
+      "old_string": "a",
+      "new_string": "b"
+    }
+  },
+  "esperado": {
+    "exit": 0,
+    "decisao": "ask"
+  }
+}

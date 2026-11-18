@@ -1,0 +1,17 @@
+{
+  "descricao": "Arquivos que não são casos de teste são ignorados",
+  "hook": "guardrails/hooks/e3-validar-casos-de-teste.js",
+  "entrada": {
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "qa/bugs/BUG-001.md"
+    },
+    "tool_response": {
+      "success": true
+    }
+  },
+  "esperado": {
+    "exit": 0
+  }
+}

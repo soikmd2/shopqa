@@ -1,0 +1,12 @@
+{
+  "descricao": "Massa fictícia + 'casos de teste' → permitido com contexto extra",
+  "hook": "guardrails/hooks/e4-proteger-prompt.js",
+  "entrada": {
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "Gere casos de teste para o cadastro com o CPF 529.982.247-25"
+  },
+  "esperado": {
+    "exit": 0,
+    "stdoutContem": "Lembretes"
+  }
+}

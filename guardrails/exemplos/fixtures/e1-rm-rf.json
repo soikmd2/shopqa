@@ -1,0 +1,15 @@
+{
+  "descricao": "Apagar a pasta src com rm -rf",
+  "hook": "guardrails/hooks/e1-bloquear-comandos-perigosos.js",
+  "entrada": {
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "rm -rf src"
+    }
+  },
+  "esperado": {
+    "exit": 2,
+    "stderrContem": "rm -rf"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "descricao": "Registra a ação e nunca bloqueia",
+  "hook": "guardrails/hooks/e5-auditoria.js",
+  "entrada": {
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "npm run test:regras"
+    },
+    "tool_response": {}
+  },
+  "esperado": {
+    "exit": 0
+  },
+  "env": {
+    "CLAUDE_PROJECT_DIR": "__TMP__"
+  }
+}

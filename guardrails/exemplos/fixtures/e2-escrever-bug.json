@@ -1,0 +1,16 @@
+{
+  "descricao": "Escrever bug report é livre",
+  "hook": "guardrails/hooks/e2-proteger-arquivos.js",
+  "entrada": {
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "qa/bugs/BUG-001.md",
+      "content": "# bug"
+    }
+  },
+  "esperado": {
+    "exit": 0,
+    "stdoutVazio": true
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "descricao": "Em modo dev a correção pede aprovação humana",
+  "hook": "guardrails/hooks/e2-proteger-arquivos.js",
+  "entrada": {
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "src/domain/frete.js",
+      "old_string": ">",
+      "new_string": ">="
+    }
+  },
+  "esperado": {
+    "exit": 0,
+    "decisao": "ask"
+  },
+  "env": {
+    "SHOPQA_MODO": "dev"
+  }
+}

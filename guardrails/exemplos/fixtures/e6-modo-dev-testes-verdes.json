@@ -1,0 +1,14 @@
+{
+  "descricao": "Em modo dev, suíte verde → pode encerrar",
+  "hook": "guardrails/hooks/e6-portao-de-qualidade.js",
+  "entrada": {
+    "hook_event_name": "Stop",
+    "stop_hook_active": false
+  },
+  "esperado": {
+    "exit": 0
+  },
+  "env": {
+    "SHOPQA_MODO": "dev"
+  }
+}

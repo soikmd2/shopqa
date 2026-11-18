@@ -1,0 +1,18 @@
+{
+  "descricao": "Casos gerados pela IA com id inválido, AC de outra US e resultado vago",
+  "hook": "guardrails/hooks/e3-validar-casos-de-teste.js",
+  "entrada": {
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "guardrails/exemplos/fixtures/casos-de-teste/casos-ruins.json"
+    },
+    "tool_response": {
+      "success": true
+    }
+  },
+  "esperado": {
+    "exit": 2,
+    "stderrContem": "vago"
+  }
+}

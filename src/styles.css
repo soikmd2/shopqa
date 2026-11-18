@@ -1,0 +1,149 @@
+:root {
+  --cor-primaria: #5b3df5;
+  --cor-primaria-escura: #4329d1;
+  --cor-destaque: #ffb703;
+  --cor-texto: #1d1b2f;
+  --cor-suave: #6b6880;
+  --cor-fundo: #f6f5fb;
+  --cor-card: #ffffff;
+  --cor-borda: #e4e1f0;
+  --cor-erro: #c62828;
+  --cor-sucesso: #2e7d32;
+  --raio: 12px;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+#root { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; padding-bottom: 48px; }
+a { color: var(--cor-primaria); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.6rem; margin: 24px 0 16px; }
+
+.container { width: min(1120px, 100% - 32px); margin: 0 auto; }
+
+/* Cabeçalho */
+.cabecalho { background: var(--cor-card); border-bottom: 1px solid var(--cor-borda); position: sticky; top: 0; z-index: 10; }
+.cabecalho__conteudo { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.logo { font-size: 1.5rem; font-weight: 800; color: var(--cor-texto); letter-spacing: -0.5px; }
+.logo span { color: var(--cor-primaria); }
+.cabecalho__acoes { display: flex; align-items: center; gap: 16px; font-size: .95rem; }
+.saudacao { color: var(--cor-suave); }
+.minicarrinho { display: flex; align-items: center; gap: 6px; background: var(--cor-fundo); padding: 8px 12px; border-radius: 999px; color: var(--cor-texto); font-weight: 600; }
+.minicarrinho__badge { background: var(--cor-primaria); color: #fff; border-radius: 999px; padding: 1px 8px; font-size: .8rem; }
+
+/* Botões */
+.botao { display: inline-block; border: 1px solid var(--cor-borda); background: var(--cor-card); color: var(--cor-texto); padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: .95rem; }
+.botao:hover { text-decoration: none; border-color: var(--cor-primaria); }
+.botao--primario { background: var(--cor-primaria); color: #fff; border-color: var(--cor-primaria); }
+.botao--primario:hover { background: var(--cor-primaria-escura); }
+.botao:disabled { opacity: .5; cursor: not-allowed; }
+.botao--bloco { width: 100%; margin-top: 12px; }
+.link-botao { background: none; border: none; color: var(--cor-primaria); cursor: pointer; padding: 0; font: inherit; }
+
+/* Catálogo */
+.hero { background: linear-gradient(120deg, var(--cor-primaria), #8f6bff); color: #fff; border-radius: var(--raio); padding: 28px; margin-top: 24px; }
+.hero h1 { margin: 0 0 8px; }
+.hero p { margin: 0; opacity: .9; }
+.filtros { display: grid; grid-template-columns: 1fr 200px 200px; gap: 12px; margin: 20px 0 8px; }
+input, select, textarea { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--cor-borda); background: #fff; width: 100%; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--cor-primaria); outline-offset: 1px; }
+.contagem { color: var(--cor-suave); font-size: .9rem; }
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+.produto-card { background: var(--cor-card); border: 1px solid var(--cor-borda); border-radius: var(--raio); overflow: hidden; display: flex; flex-direction: column; }
+.produto-card__imagem { display: grid; place-items: center; font-size: 64px; height: 150px; background: #efecfb; }
+.produto-card__imagem:hover { text-decoration: none; }
+.produto-card__corpo { padding: 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.produto-card__corpo .botao { margin-top: auto; }
+.produto-card__nome { color: var(--cor-texto); font-weight: 600; }
+.produto-card__preco { font-size: 1.25rem; }
+.tag { font-size: .75rem; color: var(--cor-primaria); background: #ece8ff; border-radius: 999px; padding: 2px 8px; align-self: flex-start; }
+.esgotado { color: var(--cor-erro); font-weight: 600; font-size: .85rem; }
+.ultimas { color: #b26a00; font-weight: 600; font-size: .85rem; }
+.disponivel { color: var(--cor-sucesso); font-size: .85rem; }
+.vazio { text-align: center; padding: 48px 16px; color: var(--cor-suave); }
+.carregando { padding: 32px 0; color: var(--cor-suave); }
+
+/* Produto */
+.voltar { display: inline-block; margin-top: 20px; }
+.produto-detalhe__topo { display: grid; grid-template-columns: 340px 1fr; gap: 32px; margin-top: 16px; }
+.produto-detalhe__imagem { background: #efecfb; border-radius: var(--raio); display: grid; place-items: center; font-size: 140px; height: 340px; }
+.preco-grande { font-size: 2rem; display: block; margin-top: 8px; }
+.parcelamento-info { color: var(--cor-suave); margin-top: 4px; }
+.comprar { display: flex; flex-direction: column; gap: 8px; max-width: 280px; margin-top: 16px; }
+.comprar label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.estrelas { color: var(--cor-destaque); letter-spacing: 2px; }
+.avaliacoes { margin-top: 40px; background: var(--cor-card); border: 1px solid var(--cor-borda); border-radius: var(--raio); padding: 20px; }
+.avaliacoes ul { list-style: none; padding: 0; margin: 0; }
+.avaliacao { border-bottom: 1px solid var(--cor-borda); padding: 12px 0; }
+.form-avaliacao { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; max-width: 560px; }
+.form-avaliacao textarea { min-height: 100px; }
+.form-avaliacao .botao { align-self: flex-start; }
+.seletor-nota button { background: none; border: none; font-size: 1.6rem; color: #cfcbe0; cursor: pointer; padding: 0 2px; }
+.seletor-nota button.ativa { color: var(--cor-destaque); }
+
+/* Carrinho / checkout */
+.carrinho__layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+.tabela-itens { width: 100%; border-collapse: collapse; background: var(--cor-card); border-radius: var(--raio); overflow: hidden; border: 1px solid var(--cor-borda); }
+.tabela-itens th, .tabela-itens td { padding: 12px; text-align: left; border-bottom: 1px solid var(--cor-borda); font-size: .95rem; }
+.tabela-itens th { background: #f0eef9; font-size: .8rem; text-transform: uppercase; letter-spacing: .4px; color: var(--cor-suave); }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--cor-borda); border-radius: 8px; overflow: hidden; }
+.stepper button { border: none; background: #f0eef9; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; }
+.stepper button:disabled { opacity: .4; cursor: not-allowed; }
+.stepper span { min-width: 36px; text-align: center; }
+.carrinho__forms { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.carrinho__forms form { background: var(--cor-card); border: 1px solid var(--cor-borda); border-radius: var(--raio); padding: 16px; }
+.carrinho__forms label { font-weight: 600; display: block; margin-bottom: 8px; }
+.linha { display: flex; gap: 8px; }
+.cupom-aplicado { background: #e8f5e9; padding: 8px 10px; border-radius: 8px; margin: 0; }
+.erro { color: var(--cor-erro); font-size: .88rem; margin: 6px 0 0; display: block; }
+.resumo { background: var(--cor-card); border: 1px solid var(--cor-borda); border-radius: var(--raio); padding: 20px; position: sticky; top: 84px; }
+.resumo h2 { margin-top: 0; font-size: 1.15rem; }
+.resumo dl { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin: 0; }
+.resumo dd { margin: 0; text-align: right; }
+.resumo .total { font-weight: 800; font-size: 1.15rem; border-top: 1px solid var(--cor-borda); padding-top: 8px; }
+.resumo__itens { padding-left: 18px; color: var(--cor-suave); font-size: .9rem; }
+.continuar { display: block; text-align: center; margin-top: 12px; }
+fieldset { background: var(--cor-card); border: 1px solid var(--cor-borda); border-radius: var(--raio); padding: 16px 20px 20px; margin: 0 0 16px; }
+legend { font-weight: 700; padding: 0 6px; }
+.grid-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.grid-form label { display: flex; flex-direction: column; gap: 4px; font-size: .88rem; font-weight: 600; }
+.grid-form .span2 { grid-column: span 2; }
+.abas { display: flex; gap: 12px; margin-bottom: 16px; }
+.abas label { border: 1px solid var(--cor-borda); border-radius: 8px; padding: 10px 14px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
+.abas label.ativa { border-color: var(--cor-primaria); background: #f3f0ff; }
+.abas input { width: auto; }
+.pix-info { background: #f3f0ff; padding: 12px; border-radius: 8px; }
+
+/* Formulários de página */
+.form-pagina { max-width: 420px; }
+.form-pagina form { display: flex; flex-direction: column; gap: 12px; background: var(--cor-card); border: 1px solid var(--cor-borda); border-radius: var(--raio); padding: 20px; }
+.form-pagina label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: .9rem; }
+.form-pagina .checkbox { flex-direction: row; align-items: center; font-weight: 400; }
+.form-pagina .checkbox input { width: auto; }
+.contas-demo { margin-top: 16px; font-size: .9rem; color: var(--cor-suave); }
+
+/* Confirmação */
+.confirmacao { text-align: center; max-width: 520px; }
+.confirmacao__icone { font-size: 56px; margin-top: 32px; }
+.confirmacao .resumo { position: static; text-align: left; margin: 20px 0; }
+.status { background: #ece8ff; color: var(--cor-primaria); padding: 2px 8px; border-radius: 999px; font-size: .8rem; white-space: nowrap; }
+
+/* Toast e rodapé */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--cor-texto); color: #fff; padding: 12px 18px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.18); max-width: 360px; z-index: 50; }
+.toast--sucesso { background: var(--cor-sucesso); }
+.toast--erro { background: var(--cor-erro); }
+.rodape { border-top: 1px solid var(--cor-borda); background: var(--cor-card); padding: 16px 0; font-size: .85rem; color: var(--cor-suave); }
+.rodape .container { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .filtros { grid-template-columns: 1fr; }
+  .produto-detalhe__topo, .carrinho__layout, .carrinho__forms { grid-template-columns: 1fr; }
+  .grid-form { grid-template-columns: 1fr 1fr; }
+  .tabela-itens { display: block; overflow-x: auto; }
+  .resumo { position: static; }
+  .saudacao { display: none; }
+}

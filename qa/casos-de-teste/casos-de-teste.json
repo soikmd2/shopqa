@@ -1,0 +1,1204 @@
+{
+  "projeto": "ShopQA v1.4",
+  "versaoSchema": "1.0",
+  "casos": [
+    {
+      "id": "TC-CAT-001",
+      "titulo": "Buscar produto pelo nome exato",
+      "historia": "US-01",
+      "criterio": "AC-01.1",
+      "regras": [
+        "RN-01"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Estar no catálogo (#/)"
+      ],
+      "dados": {
+        "termo": "Fone Bluetooth Pro"
+      },
+      "passos": [
+        "Digitar \"Fone Bluetooth Pro\" no campo de busca"
+      ],
+      "resultadoEsperado": "Apenas o card \"Fone Bluetooth Pro\" é exibido e o contador mostra \"1 item encontrado\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAT-002",
+      "titulo": "Buscar produto com termo em letras minúsculas",
+      "historia": "US-01",
+      "criterio": "AC-01.1",
+      "regras": [
+        "RN-01"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Estar no catálogo (#/)"
+      ],
+      "dados": {
+        "termo": "fone"
+      },
+      "passos": [
+        "Digitar \"fone\" no campo de busca"
+      ],
+      "resultadoEsperado": "O card \"Fone Bluetooth Pro\" é exibido e o contador mostra \"1 item encontrado\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAT-003",
+      "titulo": "Buscar produto ignorando acentos",
+      "historia": "US-01",
+      "criterio": "AC-01.1",
+      "regras": [
+        "RN-01"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Estar no catálogo (#/)"
+      ],
+      "dados": {
+        "termo": "Luminaria"
+      },
+      "passos": [
+        "Digitar \"Luminaria\" (sem acento) no campo de busca"
+      ],
+      "resultadoEsperado": "O card \"Luminária de Mesa LED\" é exibido.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAT-004",
+      "titulo": "Busca sem resultados exibe mensagem e contador zerado",
+      "historia": "US-01",
+      "criterio": "AC-01.2",
+      "regras": [
+        "RN-03"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Estar no catálogo (#/)"
+      ],
+      "dados": {
+        "termo": "geladeira"
+      },
+      "passos": [
+        "Digitar \"geladeira\" no campo de busca"
+      ],
+      "resultadoEsperado": "Exibe \"Nenhum produto encontrado para “geladeira”.\" e o contador mostra exatamente \"0 itens encontrados\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAT-005",
+      "titulo": "Filtrar por categoria combinado com busca",
+      "historia": "US-01",
+      "criterio": "AC-01.3",
+      "regras": [
+        "RN-01"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Estar no catálogo (#/)"
+      ],
+      "dados": {
+        "categoria": "Livros",
+        "termo": "Livro"
+      },
+      "passos": [
+        "Selecionar a categoria \"Livros\"",
+        "Digitar \"Livro\" na busca"
+      ],
+      "resultadoEsperado": "São exibidos somente os 2 produtos da categoria Livros e o contador mostra \"2 itens encontrados\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAT-006",
+      "titulo": "Ordenar por menor preço",
+      "historia": "US-01",
+      "criterio": "AC-01.4",
+      "regras": [
+        "RN-02"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Estar no catálogo (#/)"
+      ],
+      "dados": {
+        "ordenacao": "Menor preço"
+      },
+      "passos": [
+        "Selecionar a ordenação \"Menor preço\""
+      ],
+      "resultadoEsperado": "O primeiro card é \"Livro: Testes de Software na Prática\" (R$ 59,90) e o último é \"Notebook Ultra 14\\\"\" (R$ 4.299,00); preços em ordem crescente.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAT-007",
+      "titulo": "Produto sem estoque não pode ser adicionado",
+      "historia": "US-01",
+      "criterio": "AC-01.6",
+      "regras": [
+        "RN-04"
+      ],
+      "tipo": "negativo",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Dados de demonstração restaurados"
+      ],
+      "dados": {
+        "produto": "Livro: Inteligência Artificial para Iniciantes (estoque 0)"
+      },
+      "passos": [
+        "Localizar o card do produto no catálogo"
+      ],
+      "resultadoEsperado": "O card exibe \"Esgotado\" e o botão \"Adicionar ao carrinho\" está desabilitado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PRD-001",
+      "titulo": "Exibir detalhes do produto",
+      "historia": "US-02",
+      "criterio": "AC-02.1",
+      "regras": [
+        "RN-04"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [],
+      "dados": {
+        "produto": "#/produto/2"
+      },
+      "passos": [
+        "Acessar #/produto/2"
+      ],
+      "resultadoEsperado": "Exibe nome \"Smartwatch Fit 2\", categoria, descrição, preço R$ 649,90, preço PIX R$ 617,41 e \"12 em estoque\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PRD-002",
+      "titulo": "Comentário com **negrito** é formatado",
+      "historia": "US-02",
+      "criterio": "AC-02.5",
+      "regras": [
+        "RN-06"
+      ],
+      "tipo": "funcional",
+      "prioridade": "baixa",
+      "precondicoes": [
+        "Estar autenticado como novo@shopqa.com"
+      ],
+      "dados": {
+        "comentario": "Produto **muito** bom, recomendo"
+      },
+      "passos": [
+        "Acessar #/produto/8",
+        "Selecionar nota 5",
+        "Digitar o comentário",
+        "Clicar em \"Publicar avaliação\""
+      ],
+      "resultadoEsperado": "A avaliação é publicada e a palavra \"muito\" aparece em negrito, sem os asteriscos.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PRD-003",
+      "titulo": "Comentário com menos de 10 caracteres é rejeitado",
+      "historia": "US-02",
+      "criterio": "AC-02.4",
+      "regras": [
+        "RN-05"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Estar autenticado"
+      ],
+      "dados": {
+        "comentario": "Bom",
+        "nota": 4
+      },
+      "passos": [
+        "Acessar a página de um produto",
+        "Selecionar nota 4",
+        "Digitar \"Bom\"",
+        "Clicar em \"Publicar avaliação\""
+      ],
+      "resultadoEsperado": "Exibe \"O comentário deve ter ao menos 10 caracteres.\" e a avaliação não é publicada.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PRD-004",
+      "titulo": "Visitante não vê formulário de avaliação",
+      "historia": "US-02",
+      "criterio": "AC-02.6",
+      "regras": [
+        "RN-05"
+      ],
+      "tipo": "funcional",
+      "prioridade": "baixa",
+      "precondicoes": [
+        "Não estar autenticado"
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/produto/1"
+      ],
+      "resultadoEsperado": "O formulário não é exibido; aparece \"Entre para avaliar este produto.\" com link para o login.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PRD-005",
+      "titulo": "HTML no comentário é exibido como texto literal",
+      "historia": "US-02",
+      "criterio": "AC-02.5",
+      "regras": [
+        "RN-06"
+      ],
+      "tipo": "seguranca",
+      "prioridade": "critica",
+      "precondicoes": [
+        "Estar autenticado como novo@shopqa.com"
+      ],
+      "dados": {
+        "comentario": "Gostei <img src=x onerror=alert('xss')> demais"
+      },
+      "passos": [
+        "Acessar #/produto/6",
+        "Selecionar nota 5",
+        "Digitar o comentário",
+        "Clicar em \"Publicar avaliação\"",
+        "Recarregar a página"
+      ],
+      "resultadoEsperado": "O comentário aparece com o texto literal \"<img src=x onerror=alert('xss')>\"; nenhum alerta/script é executado, nem na publicação nem ao recarregar.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAR-001",
+      "titulo": "Adicionar produto atualiza minicarrinho",
+      "historia": "US-03",
+      "criterio": "AC-03.1",
+      "regras": [
+        "RN-10"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho vazio"
+      ],
+      "dados": {
+        "produto": "Mouse Óptico Sem Fio"
+      },
+      "passos": [
+        "No catálogo, clicar em \"Adicionar ao carrinho\" do Mouse Óptico Sem Fio"
+      ],
+      "resultadoEsperado": "O badge do minicarrinho mostra 1 e é exibido o aviso \"\\\"Mouse Óptico Sem Fio\\\" adicionado ao carrinho.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAR-002",
+      "titulo": "Botão + respeita o estoque disponível",
+      "historia": "US-03",
+      "criterio": "AC-03.2",
+      "regras": [
+        "RN-08"
+      ],
+      "tipo": "limite",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho com 1 \"Tênis de Corrida Ágil\" (estoque 3)"
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/carrinho",
+        "Clicar em \"+\" três vezes"
+      ],
+      "resultadoEsperado": "A quantidade para em 3 e o botão \"+\" fica desabilitado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAR-003",
+      "titulo": "Limite de 10 unidades ao adicionar repetidamente pela página do produto",
+      "historia": "US-03",
+      "criterio": "AC-03.2",
+      "regras": [
+        "RN-08"
+      ],
+      "tipo": "limite",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho vazio"
+      ],
+      "dados": {
+        "produto": "#/produto/4 (estoque 60)",
+        "quantidade": 10
+      },
+      "passos": [
+        "Acessar #/produto/4",
+        "Informar quantidade 10",
+        "Clicar em \"Adicionar ao carrinho\"",
+        "Clicar novamente em \"Adicionar ao carrinho\"",
+        "Acessar #/carrinho"
+      ],
+      "resultadoEsperado": "O carrinho contém no máximo 10 unidades do Mouse Óptico Sem Fio (subtotal R$ 899,00).",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAR-004",
+      "titulo": "Diminuir quantidade até zero remove o item",
+      "historia": "US-03",
+      "criterio": "AC-03.3",
+      "regras": [
+        "RN-09"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com 1 \"Garrafa Térmica 1L\""
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/carrinho",
+        "Clicar em \"−\""
+      ],
+      "resultadoEsperado": "O item é removido e é exibido \"Seu carrinho está vazio\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAR-005",
+      "titulo": "Remover item recalcula totais",
+      "historia": "US-03",
+      "criterio": "AC-03.4",
+      "regras": [
+        "RN-20"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com Cafeteira Elétrica (R$ 199,00) e Mouse (R$ 89,90)"
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/carrinho",
+        "Clicar em \"Remover\" no Mouse"
+      ],
+      "resultadoEsperado": "Subtotal e total passam a R$ 199,00 (sem CEP informado).",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CAR-006",
+      "titulo": "Minicarrinho exibe valor no formato brasileiro",
+      "historia": "US-03",
+      "criterio": "AC-03.1",
+      "regras": [
+        "RN-10"
+      ],
+      "tipo": "usabilidade",
+      "prioridade": "baixa",
+      "precondicoes": [
+        "Carrinho vazio"
+      ],
+      "dados": {
+        "produto": "Cadeira Ergonômica Office (R$ 1.299,90)"
+      },
+      "passos": [
+        "Adicionar a Cadeira Ergonômica Office ao carrinho",
+        "Observar o valor no minicarrinho do cabeçalho"
+      ],
+      "resultadoEsperado": "O minicarrinho exibe \"R$ 1.299,90\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-001",
+      "titulo": "Aplicar cupom válido em minúsculas",
+      "historia": "US-04",
+      "criterio": "AC-04.1",
+      "regras": [
+        "RN-12"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho com Cafeteira Elétrica (R$ 199,00)"
+      ],
+      "dados": {
+        "cupom": "  qa15 "
+      },
+      "passos": [
+        "Acessar #/carrinho",
+        "Informar o cupom com espaços e minúsculas",
+        "Clicar em \"Aplicar\""
+      ],
+      "resultadoEsperado": "Cupom QA15 aplicado; desconto de R$ 29,85 e total sem frete de R$ 169,15.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-002",
+      "titulo": "Cupom inexistente",
+      "historia": "US-04",
+      "criterio": "AC-04.2",
+      "regras": [
+        "RN-12"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "cupom": "NAOEXISTE"
+      },
+      "passos": [
+        "Informar NAOEXISTE e clicar em \"Aplicar\""
+      ],
+      "resultadoEsperado": "Exibe \"Cupom inválido.\" e nenhum desconto aparece no resumo.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-003",
+      "titulo": "Cupom VERAO10 encerrado é recusado",
+      "historia": "US-04",
+      "criterio": "AC-04.3",
+      "regras": [
+        "RN-13"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "cupom": "VERAO10",
+        "validade": "01/03/2025"
+      },
+      "passos": [
+        "Informar VERAO10 e clicar em \"Aplicar\""
+      ],
+      "resultadoEsperado": "Exibe \"Cupom expirado.\" e nenhum desconto é aplicado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-004",
+      "titulo": "Cupom ANIVERSARIO20 encerrado é recusado",
+      "historia": "US-04",
+      "criterio": "AC-04.3",
+      "regras": [
+        "RN-13"
+      ],
+      "tipo": "negativo",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "cupom": "ANIVERSARIO20",
+        "validade": "31/12/2025"
+      },
+      "passos": [
+        "Informar ANIVERSARIO20 e clicar em \"Aplicar\""
+      ],
+      "resultadoEsperado": "Exibe \"Cupom expirado.\" e nenhum desconto é aplicado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-005",
+      "titulo": "BLACK50 abaixo do valor mínimo",
+      "historia": "US-04",
+      "criterio": "AC-04.4",
+      "regras": [
+        "RN-14"
+      ],
+      "tipo": "limite",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com Bola de Futebol Oficial (R$ 149,90)"
+      ],
+      "dados": {
+        "cupom": "BLACK50"
+      },
+      "passos": [
+        "Informar BLACK50 e clicar em \"Aplicar\""
+      ],
+      "resultadoEsperado": "Exibe \"Este cupom exige compras a partir de R$ 300,00.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-006",
+      "titulo": "BLACK50 é removido quando o subtotal cai abaixo do mínimo",
+      "historia": "US-04",
+      "criterio": "AC-04.5",
+      "regras": [
+        "RN-14"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho com Fone Bluetooth Pro (R$ 299,00) e Bola de Futebol Oficial (R$ 149,90)"
+      ],
+      "dados": {
+        "cupom": "BLACK50"
+      },
+      "passos": [
+        "Aplicar o cupom BLACK50",
+        "Remover o Fone Bluetooth Pro do carrinho"
+      ],
+      "resultadoEsperado": "O cupom BLACK50 é removido automaticamente, um aviso explica o motivo e o total volta a R$ 149,90 (sem CEP).",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-007",
+      "titulo": "PRIMEIRACOMPRA para cliente sem pedidos",
+      "historia": "US-04",
+      "criterio": "AC-04.6",
+      "regras": [
+        "RN-15"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Autenticado como novo@shopqa.com (0 pedidos)",
+        "Carrinho com Cafeteira Elétrica"
+      ],
+      "dados": {
+        "cupom": "PRIMEIRACOMPRA"
+      },
+      "passos": [
+        "Aplicar o cupom PRIMEIRACOMPRA"
+      ],
+      "resultadoEsperado": "Cupom aplicado com desconto de R$ 19,90.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-008",
+      "titulo": "PRIMEIRACOMPRA recusado para cliente com 1 pedido anterior",
+      "historia": "US-04",
+      "criterio": "AC-04.6",
+      "regras": [
+        "RN-15"
+      ],
+      "tipo": "limite",
+      "prioridade": "critica",
+      "precondicoes": [
+        "Autenticado como cliente@shopqa.com (1 pedido)",
+        "Carrinho com Cafeteira Elétrica"
+      ],
+      "dados": {
+        "cupom": "PRIMEIRACOMPRA"
+      },
+      "passos": [
+        "Aplicar o cupom PRIMEIRACOMPRA"
+      ],
+      "resultadoEsperado": "Exibe \"Cupom válido apenas para a primeira compra.\" e nenhum desconto é aplicado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-009",
+      "titulo": "PRIMEIRACOMPRA recusado para cliente com vários pedidos",
+      "historia": "US-04",
+      "criterio": "AC-04.6",
+      "regras": [
+        "RN-15"
+      ],
+      "tipo": "negativo",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Autenticado como veterana@shopqa.com (2 pedidos)",
+        "Carrinho com Cafeteira Elétrica"
+      ],
+      "dados": {
+        "cupom": "PRIMEIRACOMPRA"
+      },
+      "passos": [
+        "Aplicar o cupom PRIMEIRACOMPRA"
+      ],
+      "resultadoEsperado": "Exibe \"Cupom válido apenas para a primeira compra.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-010",
+      "titulo": "PRIMEIRACOMPRA exige login",
+      "historia": "US-04",
+      "criterio": "AC-04.6",
+      "regras": [
+        "RN-15"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Não autenticado",
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "cupom": "PRIMEIRACOMPRA"
+      },
+      "passos": [
+        "Aplicar o cupom PRIMEIRACOMPRA"
+      ],
+      "resultadoEsperado": "Exibe \"Faça login para usar este cupom.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-FRT-001",
+      "titulo": "Frete para CEP de SP",
+      "historia": "US-05",
+      "criterio": "AC-05.1",
+      "regras": [
+        "RN-18"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho com Mouse (R$ 89,90)"
+      ],
+      "dados": {
+        "cep": "01310-100"
+      },
+      "passos": [
+        "Informar o CEP e clicar em \"Calcular\""
+      ],
+      "resultadoEsperado": "Exibe \"SP: R$ 14,90 · entrega em até 2 dias úteis\" e total R$ 104,80.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-FRT-002",
+      "titulo": "Frete para CEP do Sul sem hífen",
+      "historia": "US-05",
+      "criterio": "AC-05.2",
+      "regras": [
+        "RN-17",
+        "RN-18"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com Mouse (R$ 89,90)"
+      ],
+      "dados": {
+        "cep": "90010000"
+      },
+      "passos": [
+        "Informar o CEP e clicar em \"Calcular\""
+      ],
+      "resultadoEsperado": "Exibe \"Sul: R$ 22,90 · entrega em até 4 dias úteis\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-FRT-003",
+      "titulo": "Frete grátis com subtotal exatamente igual a R$ 299,00",
+      "historia": "US-05",
+      "criterio": "AC-05.3",
+      "regras": [
+        "RN-19"
+      ],
+      "tipo": "limite",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Carrinho somente com Fone Bluetooth Pro (R$ 299,00)"
+      ],
+      "dados": {
+        "cep": "01310-100"
+      },
+      "passos": [
+        "Informar o CEP e clicar em \"Calcular\""
+      ],
+      "resultadoEsperado": "O frete é exibido como \"Frete grátis\" e o total é R$ 299,00.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-FRT-004",
+      "titulo": "Cupom FRETEGRATIS zera o frete",
+      "historia": "US-05",
+      "criterio": "AC-05.4",
+      "regras": [
+        "RN-19"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com Bola de Futebol Oficial (R$ 149,90)"
+      ],
+      "dados": {
+        "cupom": "FRETEGRATIS",
+        "cep": "69005-000"
+      },
+      "passos": [
+        "Aplicar FRETEGRATIS",
+        "Calcular o frete para o CEP"
+      ],
+      "resultadoEsperado": "Frete \"Grátis\" e total R$ 149,90.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-FRT-005",
+      "titulo": "CEP com 7 dígitos é rejeitado",
+      "historia": "US-05",
+      "criterio": "AC-05.2",
+      "regras": [
+        "RN-17"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "cep": "0131010"
+      },
+      "passos": [
+        "Informar o CEP e clicar em \"Calcular\""
+      ],
+      "resultadoEsperado": "Exibe \"CEP inválido. Use o formato 00000-000.\" e nenhum frete é calculado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-FRT-006",
+      "titulo": "CEP com letras é rejeitado",
+      "historia": "US-05",
+      "criterio": "AC-05.2",
+      "regras": [
+        "RN-17"
+      ],
+      "tipo": "negativo",
+      "prioridade": "baixa",
+      "precondicoes": [
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "cep": "ABCDE-123"
+      },
+      "passos": [
+        "Informar o CEP e clicar em \"Calcular\""
+      ],
+      "resultadoEsperado": "O campo aceita apenas dígitos ou exibe \"CEP inválido. Use o formato 00000-000.\"; nenhum frete é calculado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-AUT-001",
+      "titulo": "Cadastro com dados válidos",
+      "historia": "US-06",
+      "criterio": "AC-06.1",
+      "regras": [
+        "RN-27",
+        "RN-29"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Não autenticado"
+      ],
+      "dados": {
+        "nome": "Teste Silva",
+        "email": "teste.silva@shopqa.com",
+        "cpf": "935.411.347-80",
+        "senha": "Senha123"
+      },
+      "passos": [
+        "Acessar #/cadastro",
+        "Preencher todos os campos com os dados",
+        "Aceitar os termos",
+        "Clicar em \"Criar conta\""
+      ],
+      "resultadoEsperado": "A conta é criada e o cabeçalho exibe \"Olá, Teste\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-AUT-002",
+      "titulo": "Senha sem maiúscula é rejeitada",
+      "historia": "US-06",
+      "criterio": "AC-06.2",
+      "regras": [
+        "RN-27"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Não autenticado"
+      ],
+      "dados": {
+        "senha": "senha1234"
+      },
+      "passos": [
+        "Preencher o cadastro com a senha informada",
+        "Clicar em \"Criar conta\""
+      ],
+      "resultadoEsperado": "Exibe \"A senha precisa de: ao menos 1 letra maiúscula.\" e a conta não é criada.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-AUT-003",
+      "titulo": "E-mail já cadastrado com outra capitalização",
+      "historia": "US-06",
+      "criterio": "AC-06.3",
+      "regras": [
+        "RN-29"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Não autenticado"
+      ],
+      "dados": {
+        "email": "CLIENTE@shopqa.com",
+        "cpf": "935.411.347-80"
+      },
+      "passos": [
+        "Preencher o cadastro com o e-mail informado e demais dados válidos",
+        "Clicar em \"Criar conta\""
+      ],
+      "resultadoEsperado": "Exibe \"Já existe uma conta com este e-mail.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-AUT-004",
+      "titulo": "Login com credenciais válidas",
+      "historia": "US-06",
+      "criterio": "AC-06.4",
+      "regras": [
+        "RN-28"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Não autenticado"
+      ],
+      "dados": {
+        "email": "cliente@shopqa.com",
+        "senha": "Senha123"
+      },
+      "passos": [
+        "Acessar #/login",
+        "Informar e-mail e senha",
+        "Clicar em \"Entrar\""
+      ],
+      "resultadoEsperado": "O cabeçalho exibe \"Olá, Ana\" e os links \"Meus pedidos\" e \"Sair\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-AUT-005",
+      "titulo": "Conta é bloqueada na 5ª tentativa inválida",
+      "historia": "US-06",
+      "criterio": "AC-06.5",
+      "regras": [
+        "RN-28"
+      ],
+      "tipo": "seguranca",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Dados de demonstração restaurados (contador zerado)"
+      ],
+      "dados": {
+        "email": "bloqueio@shopqa.com",
+        "senhaErrada": "Errada000"
+      },
+      "passos": [
+        "Tentar entrar 5 vezes seguidas com a senha errada"
+      ],
+      "resultadoEsperado": "Na 5ª tentativa é exibido \"Conta bloqueada temporariamente por excesso de tentativas. Tente novamente em 15 minutos.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-AUT-006",
+      "titulo": "Mensagem genérica para e-mail inexistente",
+      "historia": "US-06",
+      "criterio": "AC-06.6",
+      "regras": [
+        "RN-28"
+      ],
+      "tipo": "seguranca",
+      "prioridade": "media",
+      "precondicoes": [
+        "Não autenticado"
+      ],
+      "dados": {
+        "email": "ninguem@shopqa.com",
+        "senha": "Senha123"
+      },
+      "passos": [
+        "Tentar entrar com o e-mail inexistente"
+      ],
+      "resultadoEsperado": "Exibe \"E-mail ou senha inválidos.\" (mesma mensagem de senha errada).",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CHK-001",
+      "titulo": "Checkout sem login redireciona e preserva carrinho",
+      "historia": "US-07",
+      "criterio": "AC-07.1",
+      "regras": [
+        "RN-24"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Não autenticado",
+        "Carrinho com Mouse"
+      ],
+      "dados": {
+        "email": "novo@shopqa.com",
+        "senha": "Senha123"
+      },
+      "passos": [
+        "No carrinho, clicar em \"Finalizar compra\"",
+        "Entrar com a conta informada"
+      ],
+      "resultadoEsperado": "Após o login o cliente volta ao checkout e o Mouse continua no resumo.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CHK-002",
+      "titulo": "Botão de confirmação desabilitado com endereço incompleto",
+      "historia": "US-07",
+      "criterio": "AC-07.2",
+      "regras": [
+        "RN-23"
+      ],
+      "tipo": "negativo",
+      "prioridade": "media",
+      "precondicoes": [
+        "Autenticado",
+        "Carrinho com qualquer item"
+      ],
+      "dados": {
+        "endereco": "apenas CEP preenchido",
+        "pagamento": "PIX"
+      },
+      "passos": [
+        "Acessar #/checkout",
+        "Preencher somente o CEP",
+        "Escolher PIX"
+      ],
+      "resultadoEsperado": "O botão \"Confirmar pedido\" permanece desabilitado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CHK-003",
+      "titulo": "Desconto PIX não incide sobre o frete",
+      "historia": "US-07",
+      "criterio": "AC-07.3",
+      "regras": [
+        "RN-20",
+        "RN-21"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Autenticado como novo@shopqa.com",
+        "Carrinho somente com Bola de Futebol Oficial (R$ 149,90)"
+      ],
+      "dados": {
+        "endereco": {
+          "cep": "01310-100",
+          "rua": "Av. Paulista",
+          "numero": "1000",
+          "bairro": "Bela Vista",
+          "cidade": "São Paulo",
+          "uf": "SP"
+        },
+        "pagamento": "PIX"
+      },
+      "passos": [
+        "Acessar #/checkout",
+        "Preencher o endereço",
+        "Escolher PIX",
+        "Conferir o resumo"
+      ],
+      "resultadoEsperado": "Subtotal R$ 149,90; frete R$ 14,90; desconto PIX R$ 7,50; total R$ 157,30.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CHK-004",
+      "titulo": "Cartão com número inválido (Luhn) não habilita confirmação",
+      "historia": "US-07",
+      "criterio": "AC-07.4",
+      "regras": [
+        "RN-23"
+      ],
+      "tipo": "negativo",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Autenticado",
+        "Carrinho com qualquer item",
+        "Endereço válido preenchido"
+      ],
+      "dados": {
+        "cartao": "4111 1111 1111 1112",
+        "validade": "12/30",
+        "cvv": "123",
+        "nome": "TESTE QA"
+      },
+      "passos": [
+        "Escolher Cartão de crédito",
+        "Preencher os dados do cartão"
+      ],
+      "resultadoEsperado": "O botão \"Confirmar pedido\" permanece desabilitado.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CHK-005",
+      "titulo": "Parcelamento em 3x com centavos soma o total exato",
+      "historia": "US-07",
+      "criterio": "AC-07.5",
+      "regras": [
+        "RN-22"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Autenticado como novo@shopqa.com",
+        "Carrinho somente com Bola de Futebol Oficial",
+        "Frete SP (total R$ 164,80)"
+      ],
+      "dados": {
+        "endereco": {
+          "cep": "01310-100",
+          "rua": "Av. Paulista",
+          "numero": "1000",
+          "bairro": "Bela Vista",
+          "cidade": "São Paulo",
+          "uf": "SP"
+        },
+        "cartao": "4111 1111 1111 1111",
+        "validade": "12/30",
+        "cvv": "123",
+        "parcelas": 3
+      },
+      "passos": [
+        "Preencher endereço e cartão",
+        "Selecionar 3 parcelas",
+        "Confirmar o pedido",
+        "Conferir a confirmação e \"Meus pedidos\""
+      ],
+      "resultadoEsperado": "Parcelas exibidas como 1x de R$ 54,94 + 2x de R$ 54,93 e o total cobrado é R$ 164,80 na confirmação e em \"Meus pedidos\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CHK-006",
+      "titulo": "Estoque insuficiente na confirmação",
+      "historia": "US-07",
+      "criterio": "AC-07.7",
+      "regras": [
+        "RN-26"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [
+        "Aba A: autenticado, carrinho com 3 \"Tênis de Corrida Ágil\" (estoque 3)",
+        "Aba B: outro cliente compra 1 unidade do mesmo produto"
+      ],
+      "dados": {
+        "endereco": {
+          "cep": "01310-100",
+          "rua": "Av. Paulista",
+          "numero": "1000",
+          "bairro": "Bela Vista",
+          "cidade": "São Paulo",
+          "uf": "SP"
+        },
+        "pagamento": "PIX"
+      },
+      "passos": [
+        "Na aba B, concluir a compra de 1 Tênis",
+        "Na aba A, confirmar o pedido"
+      ],
+      "resultadoEsperado": "Na aba A exibe \"Estoque insuficiente para \\\"Tênis de Corrida Ágil\\\". Disponível: 2.\" e nenhum pedido é criado.",
+      "automatizavel": false
+    },
+    {
+      "id": "TC-CHK-007",
+      "titulo": "Duplo clique em Confirmar gera um único pedido",
+      "historia": "US-07",
+      "criterio": "AC-07.6",
+      "regras": [
+        "RN-25",
+        "RN-26"
+      ],
+      "tipo": "funcional",
+      "prioridade": "critica",
+      "precondicoes": [
+        "Autenticado como novo@shopqa.com",
+        "Carrinho com 1 Garrafa Térmica 1L",
+        "Endereço válido",
+        "PIX selecionado"
+      ],
+      "dados": {
+        "endereco": {
+          "cep": "01310-100",
+          "rua": "Av. Paulista",
+          "numero": "1000",
+          "bairro": "Bela Vista",
+          "cidade": "São Paulo",
+          "uf": "SP"
+        },
+        "pagamento": "PIX"
+      },
+      "passos": [
+        "Dar duplo clique em \"Confirmar pedido\"",
+        "Acessar \"Meus pedidos\""
+      ],
+      "resultadoEsperado": "O botão fica desabilitado com \"Processando pagamento...\" após o 1º clique; \"Meus pedidos\" lista exatamente 1 novo pedido e o estoque da Garrafa diminui 1 unidade.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PED-001",
+      "titulo": "Pedidos ordenados do mais recente",
+      "historia": "US-08",
+      "criterio": "AC-08.1",
+      "regras": [
+        "RN-30"
+      ],
+      "tipo": "funcional",
+      "prioridade": "media",
+      "precondicoes": [
+        "Autenticado como veterana@shopqa.com"
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/pedidos"
+      ],
+      "resultadoEsperado": "Pedido #1003 (18/06/2026) aparece antes do #1002 (02/03/2026).",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PED-002",
+      "titulo": "Cliente sem pedidos",
+      "historia": "US-08",
+      "criterio": "AC-08.2",
+      "regras": [
+        "RN-30"
+      ],
+      "tipo": "funcional",
+      "prioridade": "baixa",
+      "precondicoes": [
+        "Autenticado como novo@shopqa.com (sem pedidos)"
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/pedidos"
+      ],
+      "resultadoEsperado": "Exibe \"Você ainda não fez pedidos.\".",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-PED-003",
+      "titulo": "Acesso a pedidos sem login",
+      "historia": "US-08",
+      "criterio": "AC-08.4",
+      "regras": [
+        "RN-24"
+      ],
+      "tipo": "seguranca",
+      "prioridade": "media",
+      "precondicoes": [
+        "Não autenticado"
+      ],
+      "dados": {},
+      "passos": [
+        "Acessar #/pedidos diretamente pela URL"
+      ],
+      "resultadoEsperado": "O cliente é redirecionado para #/login.",
+      "automatizavel": true
+    }
+  ]
+}

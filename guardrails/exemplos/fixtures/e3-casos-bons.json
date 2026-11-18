@@ -1,0 +1,17 @@
+{
+  "descricao": "Os 50 casos oficiais passam na validação",
+  "hook": "guardrails/hooks/e3-validar-casos-de-teste.js",
+  "entrada": {
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "qa/casos-de-teste/casos-de-teste.json"
+    },
+    "tool_response": {
+      "success": true
+    }
+  },
+  "esperado": {
+    "exit": 0
+  }
+}

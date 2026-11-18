@@ -1,0 +1,12 @@
+{
+  "descricao": "Prompt comum passa sem alteração",
+  "hook": "guardrails/hooks/e4-proteger-prompt.js",
+  "entrada": {
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "Explique a RN-19"
+  },
+  "esperado": {
+    "exit": 0,
+    "stdoutVazio": true
+  }
+}

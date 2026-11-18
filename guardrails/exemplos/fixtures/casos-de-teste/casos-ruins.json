@@ -1,0 +1,38 @@
+{
+  "projeto": "ShopQA v1.4",
+  "versaoSchema": "1.0",
+  "casos": [
+    {
+      "id": "TC-CUPOM-1",
+      "titulo": "Cupom",
+      "historia": "US-04",
+      "criterio": "AC-03.1",
+      "regras": [
+        "RN-14"
+      ],
+      "tipo": "funcional",
+      "prioridade": "alta",
+      "precondicoes": [],
+      "passos": [
+        "Aplicar cupom"
+      ],
+      "resultadoEsperado": "O sistema deve funcionar corretamente.",
+      "automatizavel": true
+    },
+    {
+      "id": "TC-CUP-011",
+      "titulo": "BLACK50 com subtotal no limite de R$ 300,00",
+      "historia": "US-04",
+      "criterio": "AC-04.4",
+      "regras": [
+        "RN-14"
+      ],
+      "tipo": "limite",
+      "prioridade": "urgente",
+      "precondicoes": [],
+      "passos": [],
+      "resultadoEsperado": "Conforme esperado",
+      "automatizavel": "sim"
+    }
+  ]
+}

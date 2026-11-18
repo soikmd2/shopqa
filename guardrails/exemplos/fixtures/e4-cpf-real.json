@@ -1,0 +1,12 @@
+{
+  "descricao": "Prompt com CPF real",
+  "hook": "guardrails/hooks/e4-proteger-prompt.js",
+  "entrada": {
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "Gere casos de teste de cadastro usando o CPF 123.456.789-09 do cliente que reclamou"
+  },
+  "esperado": {
+    "exit": 2,
+    "stderrContem": "CPF"
+  }
+}
