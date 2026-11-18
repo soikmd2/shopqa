@@ -49,6 +49,7 @@ Contas, cartões e CEPs de teste: [`qa/massa-de-dados.md`](qa/massa-de-dados.md)
 | `npm run hooks:testar` | Simula todos os hooks de exemplo com as fixtures e mostra um resumo (total, por hook, por resultado) |
 | `npm run guardrails:instalar` | Gera `.claude/settings.json` com os hooks (`-- --desafios` inclui os desafios) |
 | `npm run desafios:corrigir` | Corretor automático dos desafios |
+| `npm run aula:resetar` | Mostra o que voltaria ao estado inicial da aula; `-- --confirmar` desfaz (alterações nas pastas do curso, arquivos novos, trilha do E5, loja em segundo plano) e `-- --sem-guardrails` também remove o `.claude/settings.json` |
 
 ## Trabalhando com o Claude Code
 

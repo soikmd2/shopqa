@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .claude/logs/
+# Gerado por npm run guardrails:instalar: cada um instala os seus hooks
+.claude/settings.json
 .claude/settings.json.backup-*
 *.log
 .shopqa-dev.json

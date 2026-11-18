@@ -14,7 +14,8 @@
     "casos:exportar": "node scripts/exportar-casos.mjs",
     "hooks:testar": "node guardrails/testar-hook.mjs",
     "guardrails:instalar": "node guardrails/instalar.mjs",
-    "desafios:corrigir": "node --test \"desafios/**/corretor.test.mjs\""
+    "desafios:corrigir": "node --test \"desafios/**/corretor.test.mjs\"",
+    "aula:resetar": "node scripts/resetar-aula.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
