@@ -8,7 +8,7 @@ ShopQA é um e-commerce em React feito para ser **testado**. Ele tem catálogo, 
 
 ```bash
 nvm use                # usa o Node do .nvmrc (24 LTS); com fnm: fnm use
-npm install
+npm ci                 # instala exatamente as versões do package-lock.json
 npm run dev            # abre http://localhost:5173 (Ctrl+C para parar)
 ```
 
@@ -19,7 +19,7 @@ npm run dev:bg         # sobe a loja e libera o terminal (log em .shopqa-dev.log
 npm run dev:stop       # derruba a loja
 ```
 
-Requer **Node.js 22 ou superior** (recomendado: 24 LTS, indicado no `.nvmrc`). Com versão mais antiga, o `npm install` falha de propósito (`engine-strict` no `.npmrc`) — atualize o Node e tente de novo.
+Requer **Node.js 22 ou superior** (recomendado: 24 LTS, indicado no `.nvmrc`). Com versão mais antiga, a instalação falha de propósito (`engine-strict` no `.npmrc`) — atualize o Node e tente de novo.
 
 Os dados ficam no `localStorage` do navegador. Para voltar ao estado inicial: rodapé da loja → **“Restaurar dados de demonstração”**.
 Contas, cartões e CEPs de teste: [`qa/massa-de-dados.md`](qa/massa-de-dados.md).
