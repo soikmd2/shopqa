@@ -4,3 +4,6 @@ dist/
 .claude/settings.json.backup-*
 *.log
 .shopqa-dev.json
+
+# Material do professor: repositório privado próprio (soikmd2/shopqa-prof), clonado aqui
+professor/
