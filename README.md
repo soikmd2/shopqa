@@ -9,7 +9,14 @@ ShopQA é um e-commerce em React feito para ser **testado**. Ele tem catálogo, 
 ```bash
 nvm use                # usa o Node do .nvmrc (24 LTS); com fnm: fnm use
 npm install
-npm run dev            # abre http://localhost:5173
+npm run dev            # abre http://localhost:5173 (Ctrl+C para parar)
+```
+
+O `npm run dev` ocupa o terminal enquanto a loja estiver no ar. Para deixá-la rodando em segundo plano e continuar usando o mesmo terminal:
+
+```bash
+npm run dev:bg         # sobe a loja e libera o terminal (log em .shopqa-dev.log)
+npm run dev:stop       # derruba a loja
 ```
 
 Requer **Node.js 22 ou superior** (recomendado: 24 LTS, indicado no `.nvmrc`). Com versão mais antiga, o `npm install` falha de propósito (`engine-strict` no `.npmrc`) — atualize o Node e tente de novo.
@@ -34,7 +41,9 @@ Contas, cartões e CEPs de teste: [`qa/massa-de-dados.md`](qa/massa-de-dados.md)
 
 | Comando | O que faz |
 |---------|-----------|
-| `npm run dev` | Sobe a loja |
+| `npm run dev` | Sobe a loja no terminal atual (Ctrl+C para parar) |
+| `npm run dev:bg` | Sobe a loja em segundo plano e libera o terminal |
+| `npm run dev:stop` | Derruba a loja iniciada com `dev:bg` |
 | `npm run test:regras` | Suíte de regressão (36 testes) |
 | `npm run casos:exportar` | Regera `casos-de-teste.md` e `.csv` a partir do JSON |
 | `npm run hooks:testar` | Simula todos os hooks de exemplo com as fixtures |

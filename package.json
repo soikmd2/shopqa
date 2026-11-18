@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:bg": "node scripts/servidor.mjs iniciar",
+    "dev:stop": "node scripts/servidor.mjs parar",
     "build": "vite build",
     "preview": "vite preview",
     "test:regras": "node --test \"tests/regras/**/*.test.js\"",

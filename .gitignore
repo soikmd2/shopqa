@@ -3,3 +3,4 @@ dist/
 .claude/logs/
 .claude/settings.json.backup-*
 *.log
+.shopqa-dev.json
