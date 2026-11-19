@@ -6,11 +6,17 @@ ShopQA é um e-commerce em React feito para ser **testado**. Ele tem catálogo, 
 
 ## Começando
 
+Precisa do **Node.js 22 ou superior** (recomendado: 24 LTS). Confira com `node -v`.
+Não tem o Node, ou a versão é antiga? Baixe o 24 LTS em <https://nodejs.org>.
+
 ```bash
-nvm use                # usa o Node do .nvmrc (24 LTS); com fnm: fnm use
 npm ci                 # instala exatamente as versões do package-lock.json
 npm run dev            # abre http://localhost:5173 (Ctrl+C para parar)
 ```
+
+> Usa gerenciador de versões? Rode antes `nvm use` ou `fnm use` (os dois leem o `.nvmrc`); no nvm-windows, `nvm use 24`.
+
+Com Node anterior ao 22, o `npm ci` falha de propósito com `EBADENGINE` (`engine-strict` no `.npmrc`) — atualize o Node e tente de novo.
 
 O `npm run dev` ocupa o terminal enquanto a loja estiver no ar. Para deixá-la rodando em segundo plano e continuar usando o mesmo terminal:
 
@@ -18,8 +24,6 @@ O `npm run dev` ocupa o terminal enquanto a loja estiver no ar. Para deixá-la r
 npm run dev:bg         # sobe a loja e libera o terminal (log em .shopqa-dev.log)
 npm run dev:stop       # derruba a loja
 ```
-
-Requer **Node.js 22 ou superior** (recomendado: 24 LTS, indicado no `.nvmrc`). Com versão mais antiga, a instalação falha de propósito (`engine-strict` no `.npmrc`) — atualize o Node e tente de novo.
 
 Os dados ficam no `localStorage` do navegador. Para voltar ao estado inicial: rodapé da loja → **“Restaurar dados de demonstração”**.
 Contas, cartões e CEPs de teste: [`qa/massa-de-dados.md`](qa/massa-de-dados.md).
